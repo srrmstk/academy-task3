@@ -1,12 +1,11 @@
 <template>
   <div class="todo-tasks">
-    <h2>Task List name here</h2>
+    <h2>List name here</h2>
     <v-list>
-      <!--   add a sorting!!!    -->
       <v-list-item
-          v-for="task in tasks"
+          v-for="task in allTasks"
           :key="task.id">
-        <Task @delete-task="$emit('delete-task', task.id, task.text)" :task="task"/>
+        <Task :task="task"/>
       </v-list-item>
     </v-list>
   </div>
@@ -14,22 +13,23 @@
 
 <script>
 import Task from "@/components/Task";
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'Tasks',
   components: {Task},
-  props: {
-    tasks: Array
-  },
   methods: {
+    ...mapActions(['fetchTasks'])
   },
-  emits: ['delete-task'],
-  data() {
-    return {}
+  computed: {
+    ...mapGetters(['allTasks'])
+  },
+  created() {
+    this.fetchTasks()
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style>
 
 </style>

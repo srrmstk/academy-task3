@@ -1,6 +1,6 @@
 <template>
   <div :class="['list__item', listItem.isDone ? 'list__item_done' : '']">
-    <router-link :to="{name: 'list', params: {id: listItem.id}}">
+    <router-link :to="{name: 'tasks', params: {id: listItem.id}}">
       {{ listItem.title }}
     </router-link>
     <i @click="$emit('delete-list', listItem.id, listItem.title)" class="fas fa-times"></i>

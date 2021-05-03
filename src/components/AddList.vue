@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       title: '',
-      isDone: false
+      completed: false
     }
   },
   methods: {
@@ -29,11 +29,11 @@ export default {
       // add a validation !!!
       const newList = {
         title: this.title,
-        isDone: this.isDone
+        completed: this.completed
       }
       this.$emit('add-list', newList)
       this.title = ''
-      this.isDone = false
+      this.completed = false
       alert(`"${newList.title}" добавлено`)
     }
   }

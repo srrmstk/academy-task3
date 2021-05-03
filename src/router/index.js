@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Tasks from '../views/Tasks'
 
 Vue.use(VueRouter)
 
@@ -10,7 +11,8 @@ const routes = [
   },
   {
     path: '/list/:id',
-    name: 'list',
+    name: 'tasks',
+    component: Tasks,
     props: true
   }
 ]

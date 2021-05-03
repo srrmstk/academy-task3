@@ -2,46 +2,43 @@
   "tasks": [
     {
       "id": 1,
-      "list-id": 1,
+      "listId": 1,
       "text": "Погладить кота",
       "date": "01.01.2000, 18:31:15",
-      "important": true
+      "completed": false,
+      "urgent": true
     },
     {
       "id": 2,
-      "list-id": 1,
+      "listId": 1,
       "text": "Покормить кота",
       "date": "01.02.2000, 18:31:15",
-      "important": true
+      "completed": false,
+      "urgent": true
     },
     {
       "id": 3,
-      "list-id": 2,
+      "listId": 2,
       "text": "Постирать белье",
       "date": "01.02.2000, 18:31:15",
-      "important": true
-    },
-    {
-      "text": "Выучить vuex",
-      "date": "30.04.2021, 21:10:59",
-      "important": false,
-      "id": 4
+      "completed": false,
+      "urgent": true
     }
   ],
   "lists": [
     {
       "id": 1,
       "title": "Список дел на отпуск",
-      "isDone": false
+      "completed": false
     },
     {
       "title": "Список дел на 30.04.2021",
-      "isDone": false,
+      "completed": false,
       "id": 2
     },
     {
       "title": "Пробуем добавить списочек",
-      "isDone": false,
+      "completed": false,
       "id": 3
     }
   ]

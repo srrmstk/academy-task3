@@ -1,38 +1,41 @@
 <template>
-  <div :class="['task__item', task.important ? 'task__item_important' : '']">
-    <v-checkbox>
+  <div :class="['task__item', task.urgent ? 'task__item_urgent' : '']">
+    <v-checkbox
+
+    >
     </v-checkbox>
     <i class="fas fa-circle"></i>
     {{ task.text }}
     {{ task.date }}
-    <i @click="$emit('delete-task', task.id, task.text)" class="fas fa-times"></i>
+    <i @click="deleteTask({id: task.id, text: task.text})" class="fas fa-times"></i>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Task',
   props: {
     task: Object
   },
-  methods: {},
-  data() {
-    return {}
+  methods: {
+    ...mapActions(['deleteTask'])
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .task__item {
-  .fa-circle {
-    color: red;
-    display: none;
-  }
-
-  &_important {
+  &_urgent {
     .fa-circle {
       display: inline;
     }
   }
+}
+
+.fa-circle {
+  color: red;
+  display: none;
 }
 </style>
