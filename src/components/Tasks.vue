@@ -1,6 +1,6 @@
 <template>
   <div class="todo-tasks">
-    <h2>List name here</h2>
+    <h2></h2>
     <v-list>
       <v-list-item
           v-for="task in allTasks"
@@ -26,6 +26,9 @@ export default {
   },
   created() {
     this.fetchTasks()
+  },
+  watch: {
+    $route: 'fetchTasks'
   }
 }
 </script>

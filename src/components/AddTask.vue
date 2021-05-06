@@ -3,7 +3,7 @@
       class="add-form d-flex flex-nowrap"
       @submit="onSubmit">
     <v-text-field
-        class="add-form__input ma-2"
+        class="add-form__input"
         v-model="text"
         outlined
         dense
@@ -21,8 +21,7 @@
         max-width="290"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn type="submit" v-bind="attrs" v-on="on"
-        >
+        <v-btn type="submit" v-bind="attrs" v-on="on">
           Добавить дело
         </v-btn>
       </template>
@@ -41,7 +40,7 @@
           <v-spacer></v-spacer>
           <v-btn
               text
-              @click="dialog = false"
+              @click="dialog = false; text = ''"
           >
             OK
           </v-btn>
@@ -69,8 +68,6 @@ export default {
       e.preventDefault()
       // add a validation !!!
       this.addTask({text: this.text, urgent: this.urgent})
-      // clearing the inputs
-      this.text = ''
       this.urgent = false
     }
   }
@@ -78,7 +75,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.add-form__input{
-  max-width: 16rem;
+.add-form__input {
+  min-width: 4rem;
+  margin-right: 2rem;
+}
+.add-form__checkbox{
+  margin-right: 2rem;
+  margin-top: 4px;
 }
 </style>

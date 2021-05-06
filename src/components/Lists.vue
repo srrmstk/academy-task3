@@ -2,17 +2,18 @@
   <div class="todo-lists">
     <v-select
         :items="sortType"
+        @change="fetchLists(select)"
         v-model="select"
         label="Сортировка"
         outlined
         dense>
     </v-select>
-    <v-list>
+    <v-list flat>
       <v-list-item-group>
         <v-list-item
-            v-for="listItem in lists"
-            :key="listItem.id">
-          <List @delete-list="$emit('delete-list', listItem.id, listItem.title)" :list-item="listItem"/>
+            v-for="list in allLists"
+            :key="list.id">
+          <List :list="list"/>
         </v-list-item>
       </v-list-item-group>
     </v-list>
@@ -21,20 +22,27 @@
 
 <script>
 import List from "@/components/List";
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'Lists',
   components: {List},
-  props: {
-    lists: Array
-  },
   data: () => ({
     select: 'Неисполненные',
     sortType: ['Неисполненные', 'Исполненные', 'Все']
-  })
+  }),
+  methods: {
+    ...mapActions(['fetchLists', 'filterLists'])
+  },
+  computed: {
+    ...mapGetters(['allLists'])
+  },
+  created() {
+    this.fetchLists(this.select)
+  }
 }
 </script>
 
-<style scoped lang="scss">
+<style>
 
 </style>
