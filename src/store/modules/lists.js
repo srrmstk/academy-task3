@@ -4,17 +4,33 @@ const state = {
     lists: []
 }
 const getters = {
-    allLists: (state) => state.lists
+    allLists: (state) => state.lists,
+    completedLists: (state) => state.lists.filter((list) => list.completed),
+    incompleteLists: (state) => state.lists.filter((list) => !list.completed)
 }
 const actions = {
+    async updateList({commit}, payload) {
+        if (payload.tasksDone === payload.taskCount){
+            payload.completed = true
+        }
+        await axios.put(`api/lists/${payload.id}`, {
+            taskCount: payload.taskCount,
+            title: payload.title,
+            completed: payload.completed,
+            tasksDone: payload.tasksDone
+        })
+        commit('updList', payload)
+    },
     async fetchLists({commit}) {
         const response = await axios.get('api/lists')
         commit('setLists', response.data)
     },
     async addList({commit}, payload) {
         const response = await axios.post('api/lists', {
+            taskCount: payload.taskCount,
             title: payload.title,
-            completed: false
+            completed: payload.completed,
+            tasksDone: payload.tasksDone
         })
         response.status !== 200
             ? commit('newList', response.data)
@@ -23,14 +39,6 @@ const actions = {
     async deleteList({commit}, payload) {
         await axios.delete(`api/lists/${payload.id}`)
         commit('removeList', payload.id)
-    },
-    // put another data at the list
-    async updateList({commit}, payload) {
-        await axios.put(`api/lists/${payload.id}`, {
-            title: payload.title,
-            completed: payload.completed,
-        })
-        commit('updList', payload)
     }
 }
 const mutations = {
@@ -47,12 +55,10 @@ const mutations = {
     },
     newList: (state, list) => (state.lists.push(list)),
     removeList: (state, id) => state.lists = state.lists.filter((list) => list.id !== id),
-    // delete other instance of list and put the updated one
-    updList: (state, updatedTask) => {
-        console.log(updatedTask)
-        const index = state.lists.findIndex((list) => list.id === updatedTask.id)
+    updList: (state, updatedList) => {
+        const index = state.lists.findIndex((list) => list.id === updatedList.id)
         if (index !== -1) {
-            state.lists.splice(index, 1, updatedTask)
+            state.lists.splice(index, 1, updatedList)
         }
     }
 }

@@ -19,7 +19,7 @@
             <AddList/>
           </v-col>
           <v-col class="d-flex" sm="9">
-            <AddTask/>
+            <AddTask :lists="allLists"/>
           </v-col>
         </v-row>
       </v-container>
@@ -31,9 +31,13 @@
 import Lists from "@/components/Lists";
 import AddTask from "@/components/AddTask";
 import AddList from "@/components/AddList";
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
-  components: {AddList, AddTask, Lists}
+  components: {AddList, AddTask, Lists},
+  computed:{
+    ...mapGetters(['allLists'])
+  }
 }
 </script>

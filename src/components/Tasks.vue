@@ -5,7 +5,7 @@
       <v-list-item
           v-for="task in allTasks"
           :key="task.id">
-        <Task :task="task"/>
+        <Task :task="task" :lists="allLists"/>
       </v-list-item>
     </v-list>
   </div>
@@ -22,7 +22,7 @@ export default {
     ...mapActions(['fetchTasks'])
   },
   computed: {
-    ...mapGetters(['allTasks'])
+    ...mapGetters(['allTasks', 'allLists'])
   },
   created() {
     this.fetchTasks()

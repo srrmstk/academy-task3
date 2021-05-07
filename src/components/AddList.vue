@@ -62,7 +62,12 @@ export default {
     onSubmit(e) {
       e.preventDefault()
       // add a validation !!!
-      this.addList({title: this.title})
+      this.addList({
+        title: this.title,
+        completed: false,
+        tasksDone: 0,
+        taskCount: 0
+      })
       this.completed = false
     }
   }

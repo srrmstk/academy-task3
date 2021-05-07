@@ -1,15 +1,19 @@
 <template>
-  <div :class="['list__item', {'list__item_done': list.completed}]">
-    <router-link :to="{name: 'tasks', params: {id: list.id}}">
-      {{ list.title }}
-    </router-link>
+  <div
+      :class="['list__item',
+      {'list__item_done': list.completed}]">
+    <v-list-item>
+      <router-link :to="{name: 'tasks', params: {id: list.id}}">
+        {{ list.title }}
+      </router-link>
+    </v-list-item>
     <v-dialog
         v-model="dialog"
         max-width="290"
     >
       <template v-slot:activator="{ on, attrs }">
         <i
-            class="fas fa-times"
+            class="fas fa-times list__item_delete"
             v-bind="attrs"
             v-on="on"></i>
       </template>
@@ -46,6 +50,7 @@
 
 <script>
 import {mapActions} from 'vuex'
+
 export default {
   name: 'List',
   props: {
@@ -63,5 +68,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.list__item {
+  background: #B9F6CA;
+  position: relative;
+  &_done {
+    background: #F5F5F5;
+  }
 
+  &_delete {
+    position: absolute;
+    top: 18px;
+    right: 10px;
+  }
+
+  &_empty {
+    background: #FFFFFF;
+  }
+}
 </style>

@@ -2,7 +2,7 @@
   <div :class="['task__item', {'task__item_urgent': task.urgent, 'task__item_completed': task.completed}]">
     <v-checkbox
         class="task__item__checkbox"
-        @change="onComplete(task)"
+        @change="onComplete(task, lists)"
         v-model="task.completed">
     </v-checkbox>
     <i class="fas fa-circle"></i>
@@ -41,7 +41,7 @@
           </v-btn>
           <v-btn
               text
-              @click="dialog = false; deleteTask({id: task.id, text: task.text})"
+              @click="dialog = false; onDelete(task.id, task.text, lists)"
           >
             Удалить
           </v-btn>
@@ -53,6 +53,7 @@
 
 <script>
 import {mapActions} from 'vuex'
+import router from "@/router";
 
 export default {
   name: 'Task',
@@ -62,19 +63,46 @@ export default {
     }
   },
   props: {
-    task: Object
+    task: Object,
+    lists: Array
   },
   methods: {
-    ...mapActions(['deleteTask', 'updateTask']),
-    onComplete(task) {
+    ...mapActions(['deleteTask', 'updateTask', 'updateList']),
+    onComplete(task, lists) {
       const updatedTask = {
         id: task.id,
         text: task.text,
         date: task.date,
         urgent: task.urgent,
-        completed: task.completed
+        completed: task.completed,
+        list_id: router.currentRoute.params.id
       }
       this.updateTask(updatedTask)
+      let updatedListItem = (lists = lists.filter((list) => list.id === router.currentRoute.params.id))[0]
+      console.log(updatedListItem)
+      let isDone
+      if (task.completed) isDone = 1
+      else isDone = -1
+      this.updateList({
+        id: updatedListItem.id,
+        taskCount: updatedListItem.taskCount,
+        title: updatedListItem.title,
+        completed: false,
+        tasksDone: updatedListItem.tasksDone + isDone
+      })
+    },
+    onDelete(id, text, lists) {
+      this.deleteTask({
+        id: id, text: text
+      })
+      let updatedListItem = (lists = lists.filter((list) => list.id === router.currentRoute.params.id))[0]
+      this.updateList({
+        id: updatedListItem.id,
+        taskCount: --updatedListItem.taskCount,
+        title: updatedListItem.title,
+        completed: false,
+        tasksDone: updatedListItem.tasksDone
+      })
     }
   }
 }

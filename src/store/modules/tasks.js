@@ -35,7 +35,8 @@ const actions = {
             text: payload.text,
             date: payload.date,
             completed: payload.completed,
-            urgent: payload.urgent
+            urgent: payload.urgent,
+            list_id: payload.list_id
         })
         response.status !== 200
             ? alert("Error, can't update task")
@@ -50,7 +51,9 @@ const mutations = {
             return b.id - a.id;
         })
     },
-    newTask: (state, task) => (state.tasks.unshift(task)),
+    newTask: (state, task) => {
+        state.tasks.unshift(task)
+    },
     removeTask: (state, id) => state.tasks = state.tasks.filter((task) => task.id !== id),
     // delete other instance of task and put the updated one
     updTask: (state, updatedTask) => {

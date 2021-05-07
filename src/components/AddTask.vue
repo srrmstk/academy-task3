@@ -52,6 +52,7 @@
 
 <script>
 import {mapActions} from 'vuex'
+import router from "@/router";
 
 export default {
   name: 'AddTask',
@@ -62,12 +63,23 @@ export default {
       dialog: false
     }
   },
+  props: {
+    lists: Array
+  },
   methods: {
-    ...mapActions(['addTask']),
-    onSubmit(e) {
+    ...mapActions(['addTask', 'updateList']),
+    onSubmit(e, lists = this.lists) {
       e.preventDefault()
       // add a validation !!!
       this.addTask({text: this.text, urgent: this.urgent})
+      let updatedListItem = (lists = lists.filter((list) => list.id === router.currentRoute.params.id))[0]
+      this.updateList({
+        id: updatedListItem.id,
+        taskCount: ++updatedListItem.taskCount,
+        title: updatedListItem.title,
+        completed: false,
+        tasksDone: updatedListItem.tasksDone
+      })
       this.urgent = false
     }
   }
@@ -79,7 +91,8 @@ export default {
   min-width: 4rem;
   margin-right: 2rem;
 }
-.add-form__checkbox{
+
+.add-form__checkbox {
   margin-right: 2rem;
   margin-top: 4px;
 }

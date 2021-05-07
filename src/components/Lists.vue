@@ -2,19 +2,17 @@
   <div class="todo-lists">
     <v-select
         :items="sortType"
-        @change="fetchLists(select)"
         v-model="select"
         label="Сортировка"
         outlined
         dense>
     </v-select>
-    <v-list flat>
+    <v-list>
+      <List
+          :list="list"
+          v-for="list in listsGetter"
+          :key="list.id"/>
       <v-list-item-group>
-        <v-list-item
-            v-for="list in allLists"
-            :key="list.id">
-          <List :list="list"/>
-        </v-list-item>
       </v-list-item-group>
     </v-list>
   </div>
@@ -32,13 +30,28 @@ export default {
     sortType: ['Неисполненные', 'Исполненные', 'Все']
   }),
   methods: {
-    ...mapActions(['fetchLists', 'filterLists'])
+    ...mapActions(['fetchLists'])
   },
   computed: {
-    ...mapGetters(['allLists'])
+    ...mapGetters(['allLists', 'completedLists', 'incompleteLists']),
+    listsGetter() {
+      let getter
+      switch (this.select) {
+        case 'Неисполненные':
+          getter = this.incompleteLists
+          break
+        case 'Исполненные':
+          getter = this.completedLists
+          break
+        case 'Все':
+          getter = this.allLists
+          break
+      }
+      return getter
+    }
   },
   created() {
-    this.fetchLists(this.select)
+    this.fetchLists()
   }
 }
 </script>
