@@ -15,7 +15,8 @@
         class="add-form__checkbox"
         v-model="urgent"
         label="Срочное"
-    ></v-checkbox>
+    >
+    </v-checkbox>
     <v-dialog
         v-model="dialog"
         max-width="290"
@@ -31,7 +32,7 @@
         </v-card-title>
 
         <v-card-text>
-          "{{ text }}" добавлено в "Название списка дел"
+          "{{ text }}" добавлено в "{{ listName }}"
         </v-card-text>
 
         <v-divider></v-divider>
@@ -51,7 +52,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import router from "@/router";
 
 export default {
@@ -65,6 +66,17 @@ export default {
   },
   props: {
     lists: Array
+  },
+  computed: {
+    ...mapGetters(['allLists']),
+    listName: function () {
+      let temp = ''
+      if (this.allLists.length !== 0){
+        temp = this.allLists.filter((list) => list.id === router.currentRoute.params.id)[0].title
+      }
+      console.log(temp)
+      return temp
+    }
   },
   methods: {
     ...mapActions(['addTask', 'updateList']),
@@ -88,12 +100,17 @@ export default {
 
 <style lang="scss" scoped>
 .add-form__input {
-  min-width: 4rem;
   margin-right: 2rem;
 }
 
 .add-form__checkbox {
   margin-right: 2rem;
   margin-top: 4px;
+}
+
+@media (max-width: 767px) {
+  .add-form {
+    flex-wrap: wrap !important;
+  }
 }
 </style>

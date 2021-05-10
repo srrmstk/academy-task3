@@ -3,6 +3,7 @@
     <h2></h2>
     <v-list>
       <v-list-item
+          class="task"
           v-for="task in allTasks"
           :key="task.id">
         <Task :task="task" :lists="allLists"/>
@@ -33,6 +34,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.task {
+  align-items: center;
+}
 </style>

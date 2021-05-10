@@ -32,9 +32,15 @@ const actions = {
             completed: payload.completed,
             tasksDone: payload.tasksDone
         })
-        response.status !== 200
-            ? commit('newList', response.data)
-            : alert("Error, can't add list")
+        try {
+            commit('newList', response.data)
+        } catch (e) {
+            console.log(e)
+            alert("Error, can't add list")
+        }
+        // response.status !== 200
+        //     ? commit('newList', response.data)
+        //     : alert("Error, can't add list")
     },
     async deleteList({commit}, payload) {
         await axios.delete(`api/lists/${payload.id}`)

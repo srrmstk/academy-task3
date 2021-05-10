@@ -20,9 +20,15 @@ const actions = {
             urgent: payload.urgent,
             list_id: router.currentRoute.params.id
         })
-        response.status !== 200
-            ? commit('newTask', response.data)
-            : alert("Error, can't add task")
+        try {
+            commit('newTask', response.data)
+        } catch (e) {
+            console.log(e)
+            alert("Error, can't add task")
+        }
+        // response.status !== 200
+        //     ? commit('newTask', response.data)
+        //     : alert("Error, can't add task")
 
     },
     async deleteTask({commit}, payload) {
@@ -31,16 +37,22 @@ const actions = {
     },
     // put another data at the task
     async updateTask({commit}, payload) {
-        const response = await axios.put(`api/tasks/${payload.id}`, {
+        await axios.put(`api/tasks/${payload.id}`, {
             text: payload.text,
             date: payload.date,
             completed: payload.completed,
             urgent: payload.urgent,
             list_id: payload.list_id
         })
-        response.status !== 200
-            ? alert("Error, can't update task")
-            : commit('updTask', payload)
+        try {
+            commit('updTask', payload)
+        } catch (e) {
+            console.log(e)
+            alert("Error, can't update task")
+        }
+        // response.status !== 200
+        //     ? alert("Error, can't update task")
+        //     : commit('updTask', payload)
     }
 }
 const mutations = {

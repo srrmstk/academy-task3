@@ -7,6 +7,7 @@
         outlined
         dense>
     </v-select>
+    <v-divider/>
     <v-list>
       <List
           :list="list"
@@ -15,6 +16,7 @@
       <v-list-item-group>
       </v-list-item-group>
     </v-list>
+    <v-divider/>
   </div>
 </template>
 

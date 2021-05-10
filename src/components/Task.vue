@@ -3,51 +3,56 @@
     <v-checkbox
         class="task__item__checkbox"
         @change="onComplete(task, lists)"
-        v-model="task.completed">
-    </v-checkbox>
-    <i class="fas fa-circle"></i>
-    <span class="task__item_text">
-      {{ task.text }}
-      {{ task.date }}
-    </span>
-    <v-dialog
-        v-model="dialog"
-        max-width="290"
+        v-model="task.completed"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <i
-            class="fas fa-times"
-            v-bind="attrs"
-            v-on="on"></i>
-      </template>
-      <v-card>
-        <v-card-title class="headline grey lighten-2">
-          Удалить дело
-        </v-card-title>
+      <div slot="label">
+        <i class="fas fa-circle"></i>
+      </div>
+      <div slot="label" class="task__item__checkbox_label">
+        {{ task.text }} {{ task.date }}
+      </div>
+      <div slot="append" class="delete-task">
+        <v-dialog
+            v-model="dialog"
+            max-width="290"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <i
+                class="fas fa-times"
+                v-bind="attrs"
+                v-on="on"></i>
+          </template>
+          <v-card>
+            <v-card-title class="headline grey lighten-2">
+              Удалить дело
+            </v-card-title>
 
-        <v-card-text>
-          Удалить дело "{{ task.text }}"?
-        </v-card-text>
+            <v-card-text>
+              Удалить дело "{{ task.text }}"?
+            </v-card-text>
 
-        <v-divider></v-divider>
+            <v-divider></v-divider>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-              text
-              @click="dialog = false"
-          >
-            Отмена
-          </v-btn>
-          <v-btn
-              text
-              @click="dialog = false; onDelete(task.id, task.text, lists)"
-          >
-            Удалить
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                  text
+                  @click="dialog = false"
+              >
+                Отмена
+              </v-btn>
+              <v-btn
+                  text
+                  @click="dialog = false; onDelete(task.id, task.text, lists)"
+              >
+                Удалить
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+    </v-checkbox>
+
   </div>
 </template>
 
@@ -79,7 +84,6 @@ export default {
       }
       this.updateTask(updatedTask)
       let updatedListItem = (lists = lists.filter((list) => list.id === router.currentRoute.params.id))[0]
-      console.log(updatedListItem)
       let isDone
       if (task.completed) isDone = 1
       else isDone = -1
@@ -93,7 +97,7 @@ export default {
     },
     onDelete(id, text, lists) {
       this.deleteTask({
-        id: id, text: text
+        id, text
       })
       let updatedListItem = (lists = lists.filter((list) => list.id === router.currentRoute.params.id))[0]
       this.updateList({
@@ -110,9 +114,14 @@ export default {
 
 <style lang="scss" scoped>
 .task__item {
+  &_text {
+    margin-bottom: 5px;
+  }
+
   &_urgent {
     .fa-circle {
       display: inline;
+      padding-bottom: 5px;
     }
   }
 
@@ -121,14 +130,24 @@ export default {
   }
 
   &_completed {
-    .task__item_text {
+    .task__item__checkbox_label {
       text-decoration: line-through;
     }
   }
+}
+
+.task__item__checkbox_label {
+  color: #000000;
 }
 
 .fa-circle {
   color: red;
   display: none;
 }
+
+.delete-task {
+  margin-top: 4px;
+  color: #000000;
+}
+
 </style>

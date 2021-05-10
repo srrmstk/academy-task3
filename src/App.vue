@@ -1,13 +1,12 @@
 <template>
   <v-app>
-    <v-container
-        fluid>
+    <v-container fluid>
       <v-row>
-        <v-col sm="3">
+        <v-col cols="12" sm="4" class="lists-column">
           <Lists/>
         </v-col>
         <v-divider vertical/>
-        <v-col sm="9">
+        <v-col>
           <router-view></router-view>
         </v-col>
       </v-row>
@@ -15,10 +14,10 @@
     <v-footer fixed>
       <v-container fluid>
         <v-row>
-          <v-col sm="3">
+          <v-col cols="12" sm="4" class="lists-column">
             <AddList/>
           </v-col>
-          <v-col class="d-flex" sm="9">
+          <v-col class="d-flex tasks-column">
             <AddTask :lists="allLists"/>
           </v-col>
         </v-row>
@@ -31,13 +30,22 @@
 import Lists from "@/components/Lists";
 import AddTask from "@/components/AddTask";
 import AddList from "@/components/AddList";
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'App',
   components: {AddList, AddTask, Lists},
-  computed:{
+  computed: {
     ...mapGetters(['allLists'])
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@media (max-width: 767px) {
+  .lists-column {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+</style>
